@@ -24,8 +24,8 @@ module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, K
 		       .OUT1(HEX6[6:0]));
 		       
 	wire [4:0] player, dealer;
-	wire [1:0] winner;
-	assign LEDR[9:8] = winner;
+	wire [4:0] winner;
+	assign LEDR[9:5] = winner;
 	statemachine s0(.Clock(CLOCK_50),    //Make rand num generator output 5 bit and remember to do the reset part
 	                .reset_n(KEY[0]), 
 			.enter(KEY[3]), 

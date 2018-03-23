@@ -4,10 +4,10 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, dcard, p
     output reg [4:0] phand = 5'b00000; //added the size of the register
     output reg [4:0] dhand = 5'b00000; 
     input Clock, reset_n, enter, pass;
-    output reg [1:0] fsm_out == 2'b00; //initialized the starting value of the output
+    output reg [4:0] fsm_out == 5'b00000; //initialized the starting value of the output
     output [4:0] dcard, pcard;
     
-    wire [4:0] prand_num, drand_num; //maybe change wire to a register
+    wire [4:0] prand_num, drand_num, flash; //maybe change wire to a register
     assign dcard = drand_num;  //so it shows the card being dealt
     assign pcard = prand_num;
     
@@ -23,6 +23,14 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, dcard, p
 		  .q(prand_num),
 		  .load(pass)  //Get random card for dealer
 		);
+
+    counter c3(.enable(1'b1), 
+		  .clock(Clock),
+		  .reset_n(reset_n),
+		  .q(flash),
+		  .load(Clock)  //Get random card for dealer
+		);
+
 
     always@(negedge reset_n or negedge enter or negedge pass) //Not sure if I need the clock, it doesn't do anything. "posedge clock" removed
         case (state)
@@ -82,11 +90,11 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, dcard, p
                                phand <= 5'b00000;
                                dhand <= 5'b00000;
                                state <= 3'b000;
-			       fsm_out <= 2'b00;
+			       fsm_out <= flash;
                             end
                         else
 			    begin
-			       fsm_out <= 2'b11;
+			       fsm_out <= 5'b11111;
                                state <= 3'b101;
 			    end
 			    //player_score = player_score + 1;
