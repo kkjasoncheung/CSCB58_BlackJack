@@ -1,8 +1,8 @@
-module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, CLOCK_50, KEY, LEDR);
+module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, KEY, LEDR);
    input [14:0] SW ;
 	input [3:0] KEY;
-	input CLOCK_50;
-	output [6:0] HEX0, HEX1, HEX2, HEX3;
+	input CLOCK_50; 
+	output [6:0] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7;
 	output [9:0] LEDR;
 	
 	wire [3:0] rand_num;
@@ -19,10 +19,24 @@ module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, CLOCK_50, KEY, LEDR);
 		  .load(KEY[1])
 		);
 		
-	statemachine bj(
-		.Clock(CLOCK_50), .Reset(KEY[3]), .enter(KEY[2]), .pass(KEY[1]), .fsm_output(LEDR[0])
-	);
-
+	hex7seg h2(.IN({3'b000, dealer}), 
+	               .OUT0(HEX5[6:0]), 
+		            .OUT1(HEX4[6:0]));
+		       
+	hex7seg h3(.IN({3'b000, player}), 
+	               .OUT0(HEX7[6:0]), 
+		            .OUT1(HEX6[6:0]));
+		       
+	wire [4:0] player, dealer;
+	wire [1:0] winner;
+	assign LEDR[9:8] = winner;
+	statemachine s0(.Clock(CLOCK_50),    //Make rand num generator output 5 bit and remember to do the reset part
+	                .reset_n(KEY[0]), 
+			.enter(KEY[3]), 
+			.pass(KEY[2]), 
+			.phand(player), 
+			.dhand(dealer),
+			.fsm_out(winner)); 
 endmodule
 
 
