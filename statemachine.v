@@ -38,11 +38,8 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, dcard, p
 		       // add 2 cards to player and dealer's hand
 		       begin
 		          phand = phand + prand_num; //Might need <= instead of just =
-		          //enter = 0;
-		          //enter = 1;
-		          //pass = 0;
-		          //pass = 1;
-		          phand = phand + prand_num;
+		          //enter = 0; //enter = 1; //pass = 0; //pass = 1;
+		          phand = phand + drand_num; //add dealers card to the player. makes it a little more random
 		          dhand = dhand + drand_num;
 		          state <= 3'b001;
 		       end
