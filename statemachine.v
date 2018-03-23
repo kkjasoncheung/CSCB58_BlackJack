@@ -26,14 +26,14 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out);  //Deal
             3'b000: if(enter == 1'b0)
 		       // add 2 cards to player and dealer's hand
 		       begin
-		       phand = phand + prand_num; //Might need <= instead of just =
-		       //enter = 0;
-		       //enter = 1;
-		       //pass = 0;
-		       //pass = 1;
-		       phand = phand + prand_num;
-		       dhand = dhand + drand_num;
-		       state <= 3'b001;
+		          phand = phand + prand_num; //Might need <= instead of just =
+		          //enter = 0;
+		          //enter = 1;
+		          //pass = 0;
+		          //pass = 1;
+		          phand = phand + prand_num;
+		          dhand = dhand + drand_num;
+		          state <= 3'b001;
 		       end
                     else
                         state <= 3'b000;
@@ -65,30 +65,30 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out);  //Deal
             3'b011:  // player lose
                         if(reset_n == 1'b0)
                             begin
-                            phand <= 5'b00000;
-                            dhand <= 5'b00000;
-                            state <= 3'b000;
-			    fsm_out <= 2'b00;
+                               phand <= 5'b00000;
+                               dhand <= 5'b00000;
+                               state <= 3'b000;
+			       fsm_out <= 2'b00;
                             end
-                        els
+                        else
 			    begin
-			    fsm_out <= 2'b01;
-                            state <= 3'b011;
+			       fsm_out <= 2'b01;
+                               state <= 3'b011;
 			    end
 			    //dealer_score = dealer_score + 1;
 			    
             3'b101: // player wins
                         if(reset_n == 1'b0)
                             begin
-                            phand <= 5'b00000;
-                            dhand <= 5'b00000;
-                            state <= 3'b000;
-			    fsm_out <= 2'b00;
+                               phand <= 5'b00000;
+                               dhand <= 5'b00000;
+                               state <= 3'b000;
+			       fsm_out <= 2'b00;
                             end
                         else
 			    begin
-			    fsm_out <= 2'b11;
-                            state <= 3'b101;
+			       fsm_out <= 2'b11;
+                               state <= 3'b101;
 			    end
 			    //player_score = player_score + 1;
             default:
