@@ -55,6 +55,8 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, dcard, p
                                 // add card to players hand
                                 if(phand < 5'b10101)
                                     state <= 3'b001;
+			        else if(phand == 5'b10101)  //win automatically if player hits 21
+				    state <= 3'b101;    
                                 else
                                     state <= 3'b011;
                             end
@@ -65,6 +67,8 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, dcard, p
                                     state <= 3'b101;   //player wins  
                                 else if(phand > dhand)
                                     state <= 3'b011;   //player loses
+				else if(dhand == 5'b10101) //dealer hits 21
+				    state = 3'b011;  //player loses
 				else
 				    state <= 3'b101; //dealer and player have the same score so just let the player win
 				end                  //it's different in real blackjack though
