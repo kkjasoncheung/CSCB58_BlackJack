@@ -1,12 +1,15 @@
-module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out);  //Dealer deals to himself with pass
+module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, dcard, pcard);  //Dealer deals to himself with pass
 
     reg [2:0] state = 3'b000;
     output reg [4:0] phand = 5'b00000; //added the size of the register
     output reg [4:0] dhand = 5'b00000; 
     input Clock, reset_n, enter, pass;
     output reg [1:0] fsm_out == 2'b00; //initialized the starting value of the output
+    output [4:0] dcard, pcard;
     
     wire [4:0] prand_num, drand_num; //maybe change wire to a register
+    assign dcard = drand_num;  //so it shows the card being dealt
+    assign pcard = prand_num;
     
     counter c0(.enable(1'b1), 
 		  .clock(Clock), //used CLOCK instead of clock. that's why the random number didn't change

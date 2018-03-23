@@ -5,27 +5,23 @@ module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, K
 	output [6:0] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7;
 	output [9:0] LEDR;
 	
-	wire [3:0] rand_num;
-	hex7seg h0(.IN({3'b000, rand_num}),  //Add 4'b0000 b/c rand_num is 4 bit
+	wire [4:0] pcardwire, dcardwire;
+	hex_display h0(.IN(dcardwire),
 		       .OUT0(HEX1[6:0]), 
 		       .OUT1(HEX0[6:0]));
 		       
-	hex7seg h1(.IN(SW[14:8]), .OUT0(HEX3[6:0]), .OUT1(HEX2[6:0]));
+	hex_display h1(.IN(pcardwire), 
+	               .OUT0(HEX3[6:0]),
+		       .OUT1(HEX2[6:0]));
 	
-	counter c0(.enable(1'b1),  //Counter always counting from 1-10
-		  .clock(CLOCK_50),
-		  .reset_n(KEY[3]),
-		  .q(rand_num),
-		  .load(KEY[1])
-		);
 		
-	hex7seg h2(.IN({3'b000, dealer}), 
+	hex_display h2(.IN(dealer), 
 	               .OUT0(HEX5[6:0]), 
-		            .OUT1(HEX4[6:0]));
+		       .OUT1(HEX4[6:0]));
 		       
-	hex7seg h3(.IN({3'b000, player}), 
+	hex_display h3(.IN(player), 
 	               .OUT0(HEX7[6:0]), 
-		            .OUT1(HEX6[6:0]));
+		       .OUT1(HEX6[6:0]));
 		       
 	wire [4:0] player, dealer;
 	wire [1:0] winner;
@@ -36,7 +32,9 @@ module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, K
 			.pass(KEY[2]), 
 			.phand(player), 
 			.dhand(dealer),
-			.fsm_out(winner)); 
+			.fsm_out(winner)
+			.dcard(dcardwire)
+			.pcard(pcardwire)); 
 endmodule
 
 
