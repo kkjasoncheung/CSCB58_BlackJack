@@ -12,7 +12,7 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, dcard, p
     assign pcard = prand_num;
     
     counter c0(.enable(1'b1), 
-		  .clock(Clock), //used CLOCK instead of clock. that's why the random number didn't change
+		  .clock(Clock), //used CLOCK instead of Clock. that's why the random number didn't change
 		  .reset_n(reset_n),
 		  .q(drand_num),
 		  .load(enter)  //Get random card for player when they press enter
@@ -24,15 +24,15 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, dcard, p
 		  .load(pass)  //Get random card for dealer
 		);
 
-    counter c3(.enable(1'b1), 
+    counter c3(.enable(1'b1),  //it keeps counting from 1 to 10 in binary so it looks like its flashing on the LEDR's
 		  .clock(Clock),
 		  .reset_n(reset_n),
 		  .q(flash),
-		  .load(Clock)  //Get random card for dealer
+		  .load(Clock) 
 		);
 
 
-    always@(negedge reset_n or negedge enter or negedge pass) //Not sure if I need the clock, it doesn't do anything. "posedge clock" removed
+    always@(negedge reset_n or negedge enter or negedge pass) //Not sure if I need the clock. "posedge clock" removed. Add back if it doesn't work.
         case (state)
             3'b000: if(enter == 1'b0)
 		       // add 2 cards to player and dealer's hand
