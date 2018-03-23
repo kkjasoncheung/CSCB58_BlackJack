@@ -50,17 +50,18 @@ module counter(enable, clock, reset_n, q, load);    //Count from 1 - 10
 	always @(posedge clock, negedge reset_n, negedge load)
 	begin
 	   if (load == 1'b0)
-			  q <= count;
-		else if (reset_n == 1'b0)
-			begin
-				count <= 4'b0001;
-			end
-		else if (enable == 1'b1)
-			begin
-				if (count == 4'b1010)
-					count <= 4'b0001;
-				else
-					count <= count + 1'b1;
-			end
+	      q <= count;
+	   else if (reset_n == 1'b0)
+	      begin
+	         count <= 4'b0001;
+	         q <= 4'b0000;
+	      end
+	   else if (enable == 1'b1)
+	      begin
+	         if (count == 4'b1010)
+	            count <= 4'b0001;
+	         else
+	            count <= count + 1'b1;
+	       end
 	end
 endmodule
