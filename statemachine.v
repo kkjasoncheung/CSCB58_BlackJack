@@ -5,7 +5,7 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, dcard, p
     output reg [4:0] dhand = 5'b00000; 
     input Clock, reset_n, enter, pass;
     output reg [4:0] fsm_out == 5'b00000; //initialized the starting value of the output
-    output [4:0] dcard, pcard;
+    output reg [4:0] dcard, pcard;
     
     wire [4:0] prand_num, drand_num, flash; //maybe change wire to a register
     assign dcard = drand_num;  //so it shows the card being dealt
