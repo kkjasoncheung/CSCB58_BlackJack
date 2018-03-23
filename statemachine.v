@@ -65,10 +65,12 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, dcard, p
 			        dhand = dhand + drand_num;
                                 if(dhand > 5'b10101)
                                     state <= 3'b101;   //player wins  
-                                else if(phand > dhand)
+                                else if(dhand > phand)
                                     state <= 3'b011;   //player loses
-				else if(dhand == 5'b10101) //dealer hits 21
-				    state = 3'b011;  //player loses
+				//else if(dhand == 5'b10101) //dealer hits 21
+				//    state = 3'b011;  //player loses
+				else if(dhand < phand)
+				    state <= 3'b001;
 				else
 				    state <= 3'b101; //dealer and player have the same score so just let the player win
 				end                  //it's different in real blackjack though
