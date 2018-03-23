@@ -75,11 +75,11 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, dcard, p
                                phand <= 5'b00000;
                                dhand <= 5'b00000;
                                state <= 3'b000;
-			       fsm_out <= 2'b00;
+			       fsm_out <= 5'b00000;
                             end
                         else
 			    begin
-			       fsm_out <= 2'b01;
+			       fsm_out <= 5'b11111;
                                state <= 3'b011;
 			    end
 			    //dealer_score = dealer_score + 1;
@@ -90,11 +90,11 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, dcard, p
                                phand <= 5'b00000;
                                dhand <= 5'b00000;
                                state <= 3'b000;
-			       fsm_out <= flash;
+			       fsm_out <= 5'b00000;
                             end
                         else
 			    begin
-			       fsm_out <= 5'b11111;
+			       fsm_out <= flash;
                                state <= 3'b101;
 			    end
 			    //player_score = player_score + 1;
