@@ -1,15 +1,19 @@
-module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, dcard, pcard);  //Dealer deals to himself with pass
+module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, dcard, pcard, randnumwire);  //Dealer deals to himself with pass
 
     reg [2:0] state = 3'b000;
     output reg [4:0] phand = 5'b00000; //added the size of the register
     output reg [4:0] dhand = 5'b00000; 
     input Clock, reset_n, enter, pass;
-    output reg [4:0] fsm_out == 5'b00000; //initialized the starting value of the output
-    output reg [4:0] dcard, pcard;
+    output reg [4:0] fsm_out; //initialized the starting value of the output
+    output dcard, pcard;
+	 input [4:0] randnumwire;
     
     wire [4:0] prand_num, drand_num, flash; //maybe change wire to a register
     assign dcard = drand_num;  //so it shows the card being dealt
     assign pcard = prand_num;
+	 
+	 wire [4:0] testwire;
+	 assign testwire = randnumwire;
     
     counter c0(.enable(1'b1), 
 		  .clock(Clock), //used CLOCK instead of Clock. that's why the random number didn't change
@@ -32,45 +36,55 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, dcard, p
 		);
 
 
-    always@(negedge reset_n or negedge enter or negedge pass) //Not sure if I need the clock. "posedge clock" removed. Add back if it doesn't work.
+    always@(posedge reset_n or negedge enter or negedge pass) //Not sure if I need the clock. "posedge clock" removed. Add back if it doesn't work.
         case (state)
+//		        3'b001:begin
+//				         fsm_out = 5'b11111; 
+//				         if(enter == 1'b0)
+//				             state <= 3'b000;
+//							end
+//								 
+//				  3'b000: begin
+//							fsm_out <= 5'b00000;
+//				          if(enter == 1'b0)
+//							    state <= 3'b001;
+//							 end
             3'b000: if(enter == 1'b0)
 		       // add 2 cards to player and dealer's hand
-		       begin
-		          phand = phand + prand_num; //Might need <= instead of just =
-		          //enter = 0; //enter = 1; //pass = 0; //pass = 1;
-		          phand = phand + drand_num; //add dealers card to the player. makes it a little more random
-		          dhand = dhand + drand_num;
-		          state <= 3'b001;
-		       end
-                    else
-                        state <= 3'b000;
+		                 begin
+		                     phand =  testwire; //Might need <= instead of just =
+
+		                     dhand = (dhand + 5'b00100);
+		                     state <= 3'b001;
+		                 end
+                           else
+                             state <= 3'b000;
             3'b001: begin
                         if(enter == 1'b0)  //player draws card until they pass or bust
                             begin
-				phand = phand + prand_num;
+								        phand = phand + testwire;
                                 // add card to players hand
                                 if(phand < 5'b10101)
                                     state <= 3'b001;
-			        else if(phand == 5'b10101)  //win automatically if player hits 21
-				    state <= 3'b101;    
+			                       else if(phand == 5'b10101)  //win automatically if player hits 21
+				                        state <= 3'b101;    
                                 else
                                     state <= 3'b011;
                             end
                         else if(pass == 1'b0)  //dealer draws a card everytime pass is pressed, until they bust
                             begin
-			        dhand = dhand + drand_num;
+			                       dhand <= dhand + testwire;
                                 if(dhand > 5'b10101)
                                     state <= 3'b101;   //player wins  
                                 else if(dhand > phand)
                                     state <= 3'b011;   //player loses
-				//else if(dhand == 5'b10101) //dealer hits 21
-				//    state = 3'b011;  //player loses
-				else if(dhand < phand)
-				    state <= 3'b001;
-				else
-				    state <= 3'b101; //dealer and player have the same score so just let the player win
-				end                  //it's different in real blackjack though
+				                    else if(dhand == 5'b10101) //dealer hits 21
+				                         state = 3'b011;  //player loses
+				                    else if(dhand < phand)
+				                         state <= 3'b001;
+				                    else
+				                         state <= 3'b101; //dealer and player have the same score so just let the player win
+				                end                  //it's different in real blackjack though
                     end
             3'b011:  // player lose
                         if(reset_n == 1'b0)
@@ -78,7 +92,7 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, dcard, p
                                phand <= 5'b00000;
                                dhand <= 5'b00000;
                                state <= 3'b000;
-			       fsm_out <= 5'b00000;
+			                      fsm_out <= 5'b00000;
                             end
                         else
 			    begin

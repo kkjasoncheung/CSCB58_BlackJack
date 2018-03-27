@@ -1,6 +1,6 @@
 module hex_display(IN,OUT0,OUT1);
   input [7:0] IN;
-  output reg [6:0]OUT0,OUT1;
+  output reg [6:0] OUT0,OUT1;
 
   always@(IN) 
 		case(IN)
