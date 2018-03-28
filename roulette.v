@@ -4,6 +4,8 @@
 // 3. player gets starting balance of $10 displayed on a hex
 // 		Each lose = -$1 balance
 //		Each win = + $2 balance
+// 4. if the player balance gets to >$20 then the game is over
+// 5. if the player balance gets to $0 then the game is over
 module roulette(Clock, reset_n, playerGuess, fsm_out, randnum, startGame, playerBalanceWire);
 	input Clock, reset_n;
 	input [4:0] playerGuess;
@@ -42,16 +44,25 @@ module roulette(Clock, reset_n, playerGuess, fsm_out, randnum, startGame, player
 						begin
 							// add $2 to player's balance
 							playerBalance <= (playerBalance + 2'b10);
-							// TODO: flash GREEN LEDs
+							// check if game is over
+							if (playerBalance > 5'b10100)
+								begin
+									// take player to winning state
+									state <= 2'b11;
+								end
 						end
 					else
 						begin
 							// player loses $1
 							playerBalance <= (playerBalance - 1'b1);
-							//flash RED LEDs
-							fsm_out <= 5'b11111;
+							// check if game is over
+							if (playerBalance == 1'b0)
+								begin
+									// take player to losing state
+									state <= 2'b01;
+								end
 						end
-					// if player wants to play again
+					// if player wants to reset game
 					if (startGame == 1'b0) 
 						begin
 							state <= 2'b01;
@@ -61,6 +72,23 @@ module roulette(Clock, reset_n, playerGuess, fsm_out, randnum, startGame, player
 						begin
 							state <= 2'b00;
 						end
+				end
+			// winning state
+			2'b11:
+				begin
+					// TODO: Flash LEDs
+					// restart game
+					if (reset_n == 1'b0)
+						state <= 2'b00;
+				end
+			// losing state
+			2'b01:
+				begin
+					//flash RED LEDs
+					fsm_out <= 5'b11111;
+					// restart game
+					if (reset_n == 1'b0)
+						state <= 2'b00;
 				end
 
 		endcase
