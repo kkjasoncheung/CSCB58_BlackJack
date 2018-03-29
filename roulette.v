@@ -9,10 +9,11 @@
 //		Each win = + $4 balance
 // 4. if the player balance gets to >$20 then the game is over
 // 5. if the player balance gets to $0 then the game is over
-module roulette(Clock, reset_n, playerGuess, fsm_out, randnum, startGame, playerBalanceWire);
+module roulette(Clock, reset_n, playerGuess, fsm_out, randnum, startGame, playerBalance);
 	input Clock, reset_n;
 	input [4:0] playerGuess;
 	input [4:0] randnum;
+	input startGame;
 	wire [4:0] randnumwire;
 	assign randnumwire = randnum;
 	// output for LEDs to signal win/lose
@@ -20,9 +21,6 @@ module roulette(Clock, reset_n, playerGuess, fsm_out, randnum, startGame, player
 
 	// declare register for money value.
 	output reg [4:0] playerBalance = 5'b01010; // initialize with $10
-	// create wire to wire out the playerBalance to top level module
-	wire [4:0] playerBalanceWire;
-	assign playerBalance = playerBalanceWire;
 
 	// declare and initialize state for FSM
 	reg state = 2'b00;
