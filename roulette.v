@@ -20,12 +20,12 @@ module roulette(Clock, reset_n, playerGuess, fsm_out, randnum, startGame, player
 	output reg [4:0] fsm_out;
 
 	// declare register for money value.
-	output reg [4:0] playerBalance = 5'b01010; // initialize with $10
+	output reg [4:0] playerBalance; // initialize with $10
 
 	// declare and initialize state for FSM
 	reg state = 2'b00;
 
-	always @ (posedge reset_n or posedge startGame)
+	always @ (negedge startGame)
 		case (state)
 			// initial state
 			2'b00:
@@ -60,7 +60,7 @@ module roulette(Clock, reset_n, playerGuess, fsm_out, randnum, startGame, player
 							if (playerBalance == 1'b0)
 								begin
 									// take player to losing state
-									state <= 2'b01;
+									state <= 2'b10;
 								end
 						end
 					// if player wants to reset game
@@ -83,7 +83,7 @@ module roulette(Clock, reset_n, playerGuess, fsm_out, randnum, startGame, player
 						state <= 2'b00;
 				end
 			// losing state
-			2'b01:
+			2'b10:
 				begin
 					//flash RED LEDs
 					fsm_out <= 5'b11111;
