@@ -26,6 +26,7 @@ module roulette(Clock, reset_n, playerGuess, fsm_out, randnum, startGame, player
 	reg state = 2'b00;
 
 	always @ (negedge startGame)
+	begin: rouletteFSM
 		case (state)
 			// initial state
 			2'b00:
@@ -93,6 +94,7 @@ module roulette(Clock, reset_n, playerGuess, fsm_out, randnum, startGame, player
 				end
 
 		endcase
+	end
 
 
 endmodule

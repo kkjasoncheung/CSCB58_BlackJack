@@ -17,13 +17,15 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, prandnum
 		);
 
 
-    always@(negedge enter or negedge pass) //try always@(*) or always@(posedge Clock)
+    always@(negedge enter or negedge pass or negedge reset_n or posedge Clock) //try always@(*) or always@(posedge Clock)
+    begin: FSM
         case (state)
             3'b000:begin
 	            if(enter == 1'b0)
 		       // add 2 cards to player the player's hand and 1 card to the dealer
 		        begin
-			   phand = phand + prandnumwire + drandnumwire;
+			   phand = phand + prandnumwire;
+			   phand = phant + drandnumwire;
 		           dhand = dhand + drandnumwire;
 		           state <= 3'b001;
 		        end
@@ -90,5 +92,6 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, prandnum
             default:
 	        state <= 3'b000;
         endcase
+    end
 endmodule
                     
