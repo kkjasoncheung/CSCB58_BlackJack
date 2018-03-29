@@ -17,7 +17,7 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, prandnum
 		);
 
 
-    always@(negedge enter or negedge pass or negedge reset_n or posedge Clock) //try always@(*) or always@(posedge Clock)
+    always@(negedge enter or negedge pass or negedge reset_n) //try always@(*) or always@(posedge Clock)
     begin: FSM
         case (state)
             3'b000:begin
