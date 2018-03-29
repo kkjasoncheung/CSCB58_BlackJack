@@ -1,17 +1,16 @@
-// THIS IS THE FIRST VERSION OF THE ROULETTE GAME. (1/2)
+// THIS IS THE SECOND VERSION OF THE ROULETTE GAME. (2/2)
 // THE VERSION OF THE ROULETTE GAME TO BE PLAYED IS DETERMINED BY THE MUX.
 // This roulette game plays like the following:
-// 1. Even or odd number
-// 2. a particular number (between 1 and 31) - TODO: Currently the random # generator generates from 1 - 10
-// 		Might need to create another module for the random # generator to generate from 1 - 31.
-// 3. player gets starting balance of $10 displayed on a hex
+// 1. Player guesses whether the number will be EVEN(SW[0] ON) or ODD(SW[0] OFF)
+// 2. player gets starting balance of $10 displayed on a hex
 // 		Each lose = -$1 balance
-//		Each win = + $4 balance
-// 4. if the player balance gets to >$20 then the game is over
-// 5. if the player balance gets to $0 then the game is over
-module roulette(Clock, reset_n, playerGuess, fsm_out, randnum, startGame, playerBalanceWire);
+//		Each win = + $2 balance
+// 3. if the player balance gets to >$20 then the game is over
+// 4. if the player balance gets to $0 then the game is over
+module roulette_guessEvenOdd(Clock, reset_n, playerGuess, fsm_out, randnum, startGame, playerBalanceWire);
 	input Clock, reset_n;
-	input [4:0] playerGuess;
+	// player guess is either even (SW[0] ON) or odd (SW[0] OFF), so 1 bit
+	input playerGuess;
 	input [4:0] randnum;
 	wire [4:0] randnumwire;
 	assign randnumwire = randnum;
@@ -42,11 +41,13 @@ module roulette(Clock, reset_n, playerGuess, fsm_out, randnum, startGame, player
 			// compare against correct answer state
 			2'b01:
 				begin
-					// If player wings
-					if (playerGuess == randnumwire)
+					// TODO: Check if value in randnumwire matches the player's guess
+					// if value in randnumwire is odd and player guessed odd
+					// OR value in randnumwire is even and player guessed even
+					if ((randnumwire % 2 == 1 && playerGuess == 1'b0) || (randnumwire % 2 == 0 && playerGuess == 1'b1))
 						begin
-							// add $4 to player's balance
-							playerBalance <= (playerBalance + 3'b100);
+							// add $2 to player's balance
+							playerBalance <= (playerBalance + 2'b10);
 							// check if game is over
 							if (playerBalance > 5'b10100)
 								begin
