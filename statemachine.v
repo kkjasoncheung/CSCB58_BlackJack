@@ -17,14 +17,14 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, prandnum
 		);
 
 
-    always@(posedge Clock, negedge reset_n, negedge enter, negedge pass) //try always@(*) or always@(posedge Clock)
+    always@(negedge enter or negedge pass) //try always@(*) or always@(posedge Clock)
         case (state)
             3'b000:begin
 	            if(enter == 1'b0)
 		       // add 2 cards to player the player's hand and 1 card to the dealer
 		        begin
-			   phand <= (phand + prandnumwire + drandnumwire);
-		           dhand <= (dhand + drandnumwire);
+			   phand = phand + prandnumwire + drandnumwire;
+		           dhand = dhand + drandnumwire;
 		           state <= 3'b001;
 		        end
 		    else
@@ -33,7 +33,7 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, prandnum
             3'b001:begin
                         if(enter == 1'b0)  //player draws card until they pass or bust
                             begin
-				phand <= phand + prandnumwire;
+				phand = phand + prandnumwire;
                                 // add card to players hand
                                 if(phand < 5'b10101)
                                     state <= 3'b001;
@@ -44,7 +44,7 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, prandnum
                             end
                         else if(pass == 1'b0)  //dealer draws a card everytime pass is pressed, until they bust
                             begin
-				dhand <= dhand + drandnumwire;
+				dhand = dhand + drandnumwire;
                                 if(dhand > 5'b10101)
                                     state <= 3'b101;   //player wins  
                                 else if(dhand > phand)

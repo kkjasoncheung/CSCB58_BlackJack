@@ -25,7 +25,7 @@ module roulette_guessEvenOdd(Clock, reset_n, playerGuess, fsm_out, randnum, star
 	// declare and initialize state for FSM
 	reg state = 2'b00;
 
-	always @ (posedge reset_n or posedge startGame)
+	always @ (negedge startGame)
 		case (state)
 			// initial state
 			2'b00:
@@ -46,7 +46,7 @@ module roulette_guessEvenOdd(Clock, reset_n, playerGuess, fsm_out, randnum, star
 					if ((randnumwire % 2 == 1 && playerGuess == 1'b0) || (randnumwire % 2 == 0 && playerGuess == 1'b1))
 						begin
 							// add $2 to player's balance
-							playerBalance <= (playerBalance + 2'b10);
+							playerBalance <= (playerBalance + 1'b1);
 							// check if game is over
 							if (playerBalance > 5'b10100)
 								begin
@@ -62,7 +62,7 @@ module roulette_guessEvenOdd(Clock, reset_n, playerGuess, fsm_out, randnum, star
 							if (playerBalance == 1'b0)
 								begin
 									// take player to losing state
-									state <= 2'b01;
+									state <= 2'b10;
 								end
 						end
 					// if player wants to reset game
@@ -85,7 +85,7 @@ module roulette_guessEvenOdd(Clock, reset_n, playerGuess, fsm_out, randnum, star
 						state <= 2'b00;
 				end
 			// losing state
-			2'b01:
+			2'b10:
 				begin
 					//flash RED LEDs
 					fsm_out <= 5'b11111;

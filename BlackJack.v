@@ -14,15 +14,24 @@ module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, K
    hex_display h1(.IN(prandnum), //display player's random number
 		  .OUT0(HEX3[6:0]),
 		  .OUT1(HEX2[6:0]));
-		
-   hex_display h2(.IN(dealer), 
-		  .OUT0(HEX5[6:0]), 
-		  .OUT1(HEX4[6:0]));
-		       
-   hex_display h3(.IN(player), 
-		  .OUT0(HEX7[6:0]), 
-		  .OUT1(HEX6[6:0]));
-				 
+
+//   hex_display h2(.IN(rouletteOut), //display dealer's random number
+//		  .OUT0(HEX1[6:0]), 
+//		  .OUT1(HEX0[6:0]));
+//		       
+//   hex_display h3(.IN(prandnum), //display player's random number
+//		  .OUT0(HEX3[6:0]),
+//		  .OUT1(HEX2[6:0]));
+//   wire [4:0] rouletteOut;
+//	roulette_guessEvenOdd r0(.Clock(CLOCK_50), .reset_n(SW[7]), .playerGuess(SW[0]), .fsm_out(winner), .randnum(prandnum), .startGame(KEY[2]), .playerBalance(rouletteOut));  
+//   hex_display h2(.IN(dealer), 
+//		  .OUT0(HEX5[6:0]), 
+//		  .OUT1(HEX4[6:0]));
+//		       
+//   hex_display h3(.IN(player), 
+//		  .OUT0(HEX7[6:0]), 
+//		  .OUT1(HEX6[6:0]));
+//				 
    counter c0(.enable(1'b1), 
 		  .clock(CLOCK_50), 
 		  .reset_n(KEY[1]),
@@ -66,7 +75,7 @@ module counter(enable, clock, reset_n, q, load);    //Count from 1 - 10
 	         count <= 5'b00001;
 	         q <= 5'b00000;  
 	      end
-	   else if(enable == 1'b0)
+	   else if(enable == 1'b1)
 	      begin
 	         if(count == 5'b01010)
 	            count <= 5'b00001;
