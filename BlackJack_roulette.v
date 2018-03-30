@@ -23,6 +23,7 @@ module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, K
 		  .OUT0(HEX3[6:0]),
 		  .OUT1(HEX2[6:0]));
    wire [4:0] rouletteOut;
+   // instantiate instance for regular roulette game
 	roulette r0(.Clock(CLOCK_50), .reset_n(SW[7]), .playerGuess(SW[4:0]), .fsm_out(winner), .randnum(prandnum), .startGame(KEY[2]), .playerBalance(rouletteOut));  
 //   hex_display h2(.IN(dealer), 
 //		  .OUT0(HEX5[6:0]), 
