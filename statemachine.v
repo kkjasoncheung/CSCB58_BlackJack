@@ -9,7 +9,7 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, prandnum
     
     wire [4:0] flash;
 
-    counter c0(.enable(1'b1),  //it keeps counting from 1 to 10 in binary so it looks like its flashing on the LEDR's
+    randomNumberModule c0(.enable(1'b1),  //it keeps counting from 1 to 10 in binary so it looks like its flashing on the LEDR's
 		  .clock(Clock),
 		  .reset_n(reset_n),
 		  .q(flash),

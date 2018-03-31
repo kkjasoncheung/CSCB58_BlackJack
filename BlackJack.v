@@ -12,7 +12,7 @@ module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, K
 	wire [4:0] wire45;
 	wire [4:0] wire67;
    wire [4:0] drandnum, prandnum, player, dealer, winner;
-   assign LEDR[9:5] = winner;
+	assign LEDR[9:5] = winner;
 
 
    // Generate random numbers
@@ -83,8 +83,8 @@ module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, K
 					  .OUT1(HEX6[6:0]));
 					  
 	// create instances of muxs for h0, h2 and h3.
-	// mux for HEX0 and HEX1 output
-	mux3to1 m1(.regularRouletteOut(regularRouletteOut),
+	// mux (mux3to1) for HEX0 and HEX1 output
+	mux m1(.regularRouletteOut(regularRouletteOut),
 				.evenOddRouletteOut(evenOddRouletteOut), 
 				.drandnum(drandnum),
 				.select(SW[14:13]), // use switches 14-13 to select game

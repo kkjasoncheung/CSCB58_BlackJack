@@ -1,5 +1,6 @@
-module mux3to1(regularRouletteOut, evenOddRouletteOut, drandnum, select, outWire);
-	input [4:0] regularRoulettOut;
+// mux = mux3to1
+module mux(regularRouletteOut, evenOddRouletteOut, drandnum, select, outWire);
+	input [4:0] regularRouletteOut;
 	input [4:0] evenOddRouletteOut;
 	input [4:0] drandnum;
 	input [1:0] select;
@@ -11,7 +12,7 @@ module mux3to1(regularRouletteOut, evenOddRouletteOut, drandnum, select, outWire
 			// use select to choose output
 			if (select == 2'b00)
 				begin
-					x = regularRoulettOut;
+					x = regularRouletteOut;
 				end
 			else if (select == 2'b01)
 				begin
@@ -36,7 +37,7 @@ module mux2to1(gameInput, select, outWire);
 				begin
 					x = gameInput;
 				end
-			else if ()
+			else
 				begin
 					x = 4'b0000;
 				end
