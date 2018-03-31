@@ -80,8 +80,17 @@ module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, K
 			   hex_display h1(.IN(prandnum), //display player's random number
 					  .OUT0(HEX3[6:0]),
 					  .OUT1(HEX2[6:0]));
+					  
+			   hex_display h2(.IN(dealer), //display dealers' score on right
+					  .OUT0(HEX5[6:0]),
+					  .OUT1(HEX4[6:0]));
+					  
+			   hex_display h3(.IN(player), //display player's score on left
+					  .OUT0(HEX7[6:0]),
+					  .OUT1(HEX6[6:0]));
 
-				statemachine s0(.Clock(CLOCK_50),    //Make rand num generator output 5 bit and remember to do the reset part
+
+			   statemachine s0(.Clock(CLOCK_50),    //Make rand num generator output 5 bit and remember to do the reset part
 					.reset_n(KEY[1]), 
 					.enter(KEY[3]), 
 					.pass(KEY[2]), 
