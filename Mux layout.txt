@@ -1,0 +1,31 @@
+USE THIS MUX CODE
+
+http://electrosofts.com/verilog/mux.html
+
+
+3 to 1 Mux for HEX0 and HEX1
+- Inputs: regularRouletteOut, evenOddRouletteOut, drandnum (from BlackJack), q (choose game)
+- Output: wire01 (to hex displays)
+- Logic: If q == 0, connect regularRouletteOut as output ->  HEX0 and HEX1
+	If q == 1, connect evenOddRouletteOut as output ->  HEX0 and HEX1
+	If q == 2, connect drandnum as output -> HEX0 and HEX1
+
+For HEX2 and HEX3 it will always be connected to prandnum. No need for a mux.
+
+For HEX4 and HEX5
+- Inputs: dealer (from BlackJack), q (Choose game)
+- Output: wire45 (to hex displays)
+- Logic: if q == 2, connect dealer as output -> HEX4 and HEX5
+	else, output 0
+
+For HEX6 and HEX7
+- Inputs: player (from BlackJack), q (Choose game)
+- Output: wire67 (to hex displays)
+- Logic: if q == 2, connect dealer as output -> HEX6 and HEX7
+	else, output 0
+
+Things to do. 
+1. Implement generic mux module.
+2. create instances according to above.
+3. Wire the generic wirexy to the hex instances
+
