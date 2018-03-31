@@ -83,43 +83,29 @@ module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, K
 					  .OUT1(HEX6[6:0]));
 					  
 	// create instances of muxs for h0, h2 and h3.
-	
-	
-	// use 2 more HEXS for BlackJack game
-						
+	// mux for HEX0 and HEX1 output
+	mux3to1 m1(.regularRouletteOut(regularRouletteOut),
+				.evenOddRouletteOut(evenOddRouletteOut), 
+				.drandnum(drandnum),
+				.select(SW[14:13]), // use switches 14-13 to select game
+				.outWire(wire01)
+				);
+	// mux for HEX4, HEX5 output
+	mux2to1 m2(.gameInput(dealer),
+					.select(SW[14:13]),
+					.outWire(wire45)
+					);
+
+	// mux for HEX6, HEX7 output
+	mux2to1 m3(.gameInput(player),
+					.select(SW[14:13]),
+					.outWire(wire67)
+					);
+
 	// conditionally generate instances 
 	// Solution found on Stack Overflow
 	// https://stackoverflow.com/questions/15240591/conditional-instantiation-of-verilog-module
-   // Use SW[14:12] To select game
-	
-		// SW[14] ON for roulette 
-			
-				
-				
-		// SW[13] ON for roulette_guessEvenOdd
-			
-		// SW[12] ON for BlackJack
-			
-				
 
-	
-//   hex_display h2(.IN(rouletteOut), //display dealer's random number
-//		  .OUT0(HEX1[6:0]), 
-//		  .OUT1(HEX0[6:0]));
-//		       
-//   hex_display h3(.IN(prandnum), //display player's random number
-//		  .OUT0(HEX3[6:0]),
-//		  .OUT1(HEX2[6:0]));
-//   wire [4:0] rouletteOut;
-//	roulette_guessEvenOdd r0(.Clock(CLOCK_50), .reset_n(SW[7]), .playerGuess(SW[0]), .fsm_out(winner), .randnum(prandnum), .startGame(KEY[2]), .playerBalance(rouletteOut));  
-//   hex_display h2(.IN(dealer), 
-//		  .OUT0(HEX5[6:0]), 
-//		  .OUT1(HEX4[6:0]));
-//		       
-//   hex_display h3(.IN(player), 
-//		  .OUT0(HEX7[6:0]), 
-//		  .OUT1(HEX6[6:0]));
-//				 
 endmodule
 
 // random number generator

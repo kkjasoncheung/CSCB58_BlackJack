@@ -1,28 +1,46 @@
-// TODO: MUX MODULE
-module mux(SW, OUTPUT);
-		
-	// 3 Options for the game.
-	// 1. Roulette: guessing a particular number
-	// 2. Roulette: guessing even or odd number
-	// 3. BlackJack: 21
-	
-	input [1:0] SW;
-	output [2:0] OUTPUT;
+module mux3to1(regularRouletteOut, evenOddRouletteOut, drandnum, select, outWire);
+	input [4:0] regularRoulettOut;
+	input [4:0] evenOddRouletteOut;
+	input [4:0] drandnum;
+	input [1:0] select;
+	reg [4:0] x;
+	output outWire;
 
-	// create modules needed for casino
-//	assign OUTPUT[2] = BlackJack(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, KEY, LEDR);
-//	assign OUTPUT[1] = roulette(Clock, reset_n, playerGuess, fsm_out, randnum, startGame, playerBalanceWire);
-//	assign OUTPUT[0] = roulette_EvenOdd(Clock, reset_n, playerGuess, fsm_out, randnum, startGame, playerBalanceWire);
-
-//	always @(*)
-//	begin
-//		case (SW[9:0])
-//			3'b000: OUTPUT[0] = SW[0];
-//			3'b001: OUTPUT[1] = SW[1];
-//			3'b010: OUTPUT[2] = SW[2];
-//		endcase
-//	end
-
+	always @(select)
+		begin
+			// use select to choose output
+			if (select == 2'b00)
+				begin
+					x = regularRoulettOut;
+				end
+			else if (select == 2'b01)
+				begin
+					x = evenOddRouletteOut;
+				end
+			else if (select == 2'b10) begin
+					x = drandnum;
+			end
+		end
+	assign outWire = x;
 endmodule
 
-// TODO: Incomplete Module
+module mux2to1(gameInput, select, outWire);
+	input [4:0] gameInput;
+	input [1:0] select;
+	output [4:0] outWire;
+	reg [4:0] x;
+	
+	always @(*)
+		begin
+			if (select == 2'b10)
+				begin
+					x = gameInput;
+				end
+			else if ()
+				begin
+					x = 4'b0000;
+				end
+		end
+	assign outWire = x;
+endmodule
+
