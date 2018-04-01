@@ -12,6 +12,7 @@ module mux_2(SW, outh1, outh2, outh3, outh4, CLOCK_50, KEY, outLed);
         //Add this module to the Blackjack file
 	//-------------------------------FROM HERE---------------------------
 	//wire [4:0] h1, h2, h3, h4, led; //Wires for the hexes and led
+	//assign LEDR[9:5] = led;
 	//mux_2 m0(.SW(SW[14:0]), 
 	         //.outh1(h1), 
 		 //.outh2(h2), 
