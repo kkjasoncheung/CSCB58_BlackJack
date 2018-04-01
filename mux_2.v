@@ -2,25 +2,25 @@ module mux_2(SW, outh1, outh2, outh3, outh4, CLOCK_50, KEY, outLed);
         input [14:0] SW ;
         input [3:0] KEY;
         input CLOCK_50; 
-        output [4:0] outh1, outh2, outh3, outh4, outLed;
+        output reg [4:0] outh1, outh2, outh3, outh4, outLed;
 	
 	
 	wire [4:0] rouletteOut, rouletteEDOut, blackjackOut;
         wire [4:0] drandnum, prandnum, player, dealer, winner;
         wire [4:0] regularRouletteOut, EvenOddRouletteOut;
 
-        //Add this module to the Blackjack file
+   //Copy this module onto the Blackjack file. Remove all of the previous wires
 	//-------------------------------FROM HERE---------------------------
-	//wire [4:0] h1, h2, h3, h4, led; //Wires for the hexes and led
+	//wire [4:0] hout1, hout2, hout3, hout4, led; //Wires for the hexes and led
 	//assign LEDR[9:5] = led;
 	//mux_2 m0(.SW(SW[14:0]), 
-	         //.outh1(h1), 
-		 //.outh2(h2), 
-		 //.outh3(h3), 
-		 //.outh4(h4), 
+	         //.outh1(hout1), 
+		 //.outh2(hout2), 
+		 //.outh3(hout3), 
+		 //.outh4(hout4), 
 		 //.CLOCK_50(CLOCK_50), 
 		 //.KEY(KEY[3:0]), 
-		 //.LEDR(led));
+		 //.outLed(led));
 	      
 	//hex_display h0(.IN(h4), //Rightmost hex
 		       //.OUT0(HEX1[6:0]), 
@@ -90,29 +90,37 @@ module mux_2(SW, outh1, outh2, outh3, outh4, CLOCK_50, KEY, outLed);
 	begin
 		case (SW[9:8])
 			2'b00: //Output for roulette
+					 begin
 			       outh1 <= 5'b00000;
 			       outh2 <= 5'b00000;
 			       outh3 <= regularRouletteOut;  //Third 2 hexes is the player's score
 			       outh4 <= prandnum;     //Last 2 hexes to the right show the random number
 			       outLed <= rouletteOut;
+					 end
 			2'b01: //Ouput for even or odd roulette
+			       begin
 			       outh1 <= 5'b00000;
 			       outh2 <= 5'b00000;
 			       outh3 <= EvenOddRouletteOut; //Player's score
 			       outh4 <= prandnum; //Random number
 			       outLed <= rouletteEDOut;
+					 end
 			2'b11: //Output for blackjack
+			       begin
 			       outh1 <= player;
 			       outh2 <= dealer;
 			       outh3 <= prandnum;
 			       outh4 <= drandnum;
 			       outLed <= blackjackOut;
-			default:
+					 end
+			default://All hexes are 00
+			       begin
 			       outh1 <= 5'b00000;
 			       outh2 <= 5'b00000;
 			       outh3 <= 5'b00000;
 			       outh4 <= 5'b00000;
 			       outLed <= 5'b00000;
+					 end
 		endcase
 	end
 
