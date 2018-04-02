@@ -22,20 +22,20 @@ module mux_2(SW, outh1, outh2, outh3, outh4, CLOCK_50, KEY, outLed);
 		 //.KEY(KEY[3:0]), 
 		 //.outLed(led));
 	      
-	//hex_display h0(.IN(h4), //Rightmost hex
+	//hex_display h0(.IN(hout4), //Rightmost hex
 		       //.OUT0(HEX1[6:0]), 
 		       //.OUT1(HEX0[6:0])
 		       //);
-	//hex_display h1(.IN(h3), 
+	//hex_display h1(.IN(hout3), 
 		       //.OUT0(HEX3[6:0]), 
 		       //.OUT1(HEX2[6:0])
 		       //);
 
-	//hex_display h2(.IN(h2), 
+	//hex_display h2(.IN(hout2), 
 		       //.OUT0(HEX5[6:0]), //Second left most hext
 		       //.OUT1(HEX4[6:0]));
 					  
-	//hex_display h3(.IN(h1),  //Left most hex
+	//hex_display h3(.IN(hout1),  //Left most hex
 		       //.OUT0(HEX7[6:0]),
                        //.OUT1(HEX6[6:0]));      
         //------------------------------TO HERE------------------------------
