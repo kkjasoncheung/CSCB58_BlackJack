@@ -21,7 +21,7 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, prandnum
     begin
         case (state)
             3'b000:begin
-	            if(enter == 1'b0)
+	            if(!enter)
 		       // add 2 cards to player the player's hand and 1 card to the dealer
 		        begin
 			   phand = phand + prandnumwire;
@@ -33,7 +33,7 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, prandnum
 		       state <= 3'b000;
 		    end
             3'b001:begin
-                        if(enter == 1'b0)  //player draws card until they pass or bust
+                        if(!enter)  //player draws card until they pass or bust
                             begin
 				phand = phand + prandnumwire;
                                 // add card to players hand
@@ -44,7 +44,7 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, prandnum
                                 else
                                     state <= 3'b011;
                             end
-                        else if(pass == 1'b0)  //dealer draws a card everytime pass is pressed, until they bust
+                        else if(!pass)  //dealer draws a card everytime pass is pressed, until they bust
                             begin
 				dhand = dhand + drandnumwire;
                                 if(dhand > 5'b10101)
@@ -60,7 +60,7 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, prandnum
 			    end                  //it's different in real blackjack though
                     end
             3'b011:begin  // player lose
-                        if(reset_n == 1'b0)
+                        if(!reset_n)
                             begin
                                phand <= 5'b00000;
                                dhand <= 5'b00000;
@@ -69,13 +69,13 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, prandnum
                             end
                         else
 			    begin
-			       fsm_out <= 5'b11111;
+			       fsm_out <= 5'b10101;
                                state <= 3'b011;
 			    end
 			    //dealer_score = dealer_score + 1;
 		   end    
             3'b101:begin // player wins
-                        if(reset_n == 1'b0)
+                        if(!reset_n)
                             begin
                                phand <= 5'b00000;
                                dhand <= 5'b00000;
