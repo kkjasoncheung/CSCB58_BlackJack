@@ -113,6 +113,14 @@ module mux_2(SW, outh1, outh2, outh3, outh4, CLOCK_50, KEY, outLed);
 			       outh4 <= drandnum;
 			       outLed <= blackjackOut;
 					 end
+	                2'b10: //Output for random number game for two players
+			       begin
+			       outh1 <= 5'b00000;
+			       outh2 <= 5'b00000;
+			       outh3 <= prandnum;
+			       outh4 <= drandnum;
+			       outLed <= 5'b00000;
+			       end
 			default://All hexes are 00
 			       begin
 			       outh1 <= 5'b00000;
