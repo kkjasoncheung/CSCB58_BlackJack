@@ -18,7 +18,7 @@ module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, prandnum
 
 
     always@(negedge enter or negedge pass or negedge reset_n) //try always@(*) or always@(posedge Clock)
-    begin
+    begin: BlackJackFSM
         case (state)
             3'b000:begin
 	            if(!enter)
