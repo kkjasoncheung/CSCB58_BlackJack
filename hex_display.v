@@ -1,3 +1,8 @@
+//We got the idea for showing the numbers on two hex displays from the link below.
+//We did not copy any of the code directly and just modified our hex displays
+//from the lab to show a number on two displays.
+//https://github.com/SchweitzerM/VerilogBlackJack/tree/master/BlackJack
+
 module hex_display(IN,OUT0,OUT1);
   input [7:0] IN;
   output reg [6:0] OUT0,OUT1;
