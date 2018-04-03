@@ -11,7 +11,8 @@ module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, K
 	wire [4:0] wire23;
 	wire [4:0] wire45;
 	wire [4:0] wire67;
-   wire [4:0] drandnum, prandnum, player, dealer, winner;
+	wire [4:0] drandnum, prandnum, player, dealer, winner;
+	wire [4:0] roulette_winner_wire, roulette_evenOdd_winner_wire, blackjack_winner_wire;
 	assign LEDR[9:5] = winner;
 
 
@@ -29,13 +30,15 @@ module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, K
 		  .q(drandnum),
 		  .load(KEY[3])  //Get random card for player when they press KEY[3]
 		);
-		
+	
+	// third random number for the slots game
+
 	// WITHOUT using Generate instances
 	// create instances of each game
 	roulette r0(.Clock(CLOCK_50),
 							.reset_n(SW[7]),
 							.playerGuess(SW[4:0]),
-							.fsm_out(winner),
+							.fsm_out(roulette_winner_wire),
 							.randnum(prandnum),
 							.startGame(KEY[2]),
 							.playerBalance(regularRouletteOut)
@@ -44,7 +47,7 @@ module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, K
 	roulette_guessEvenOdd r1(.Clock(CLOCK_50),
 							.reset_n(SW[7]),
 							.playerGuess(SW[4:0]),
-							.fsm_out(winner),
+							.fsm_out(roulette_evenOdd_winner_wire),
 							.randnum(prandnum),
 							.startGame(KEY[2]),
 							.playerBalance(EvenOddRouletteOut)
@@ -56,7 +59,7 @@ module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, K
 					.pass(KEY[2]), 
 					.phand(player), 
 					.dhand(dealer),
-					.fsm_out(winner),
+					.fsm_out(blackjack_winner_wire),
 					.prandnumwire(prandnum),
 					.drandnumwire(drandnum)
 					); 
@@ -84,9 +87,9 @@ module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, K
 					  
 	// create instances of muxs for h0, h2 and h3.
 	// mux (mux3to1) for HEX0 and HEX1 output
-	mux m1(.regularRouletteOut(regularRouletteOut),
-				.evenOddRouletteOut(evenOddRouletteOut), 
-				.drandnum(drandnum),
+	mux m1(.in1(regularRouletteOut),
+				.in2(evenOddRouletteOut), 
+				.in3(drandnum),
 				.select(SW[14:13]), // use switches 14-13 to select game
 				.outWire(wire01)
 				);
@@ -102,6 +105,13 @@ module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, K
 					.outWire(wire67)
 					);
 
+	// mux for choosing the winner output
+	mux m4(.in1(roulette_winner_wire),
+			.in2(roulette_guessEvenOdd),
+			.in3(blackjack_winner_wire),
+			.select(SW[14:13]),
+			.outWire(winner)
+			);
 	// conditionally generate instances 
 	// Solution found on Stack Overflow
 	// https://stackoverflow.com/questions/15240591/conditional-instantiation-of-verilog-module
@@ -133,3 +143,21 @@ module randomNumberModule(enable, clock, reset_n, q, load);    //Count from 1 - 
 	      end
 	end
 endmodule
+
+// rate divider module
+module rateDivider(clk, divider);
+	input clk;
+	output reg divider;
+	reg [25:0] counter;
+	always @ (posedge clk)
+		begin
+			counter <= counter + 1'b1;
+			if (counter == 26'b1011111010111100001000000)
+				begin
+					counter <= 26'b00000000000000000000000000;
+					divider <= divider + 1'b1;
+				end
+		end
+endmodule
+
+

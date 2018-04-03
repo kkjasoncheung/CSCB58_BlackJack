@@ -10,7 +10,7 @@
 module roulette_guessEvenOdd(Clock, reset_n, playerGuess, fsm_out, randnum, startGame, playerBalance);
 	input Clock, reset_n;
 	// player guess is either even (SW[0] ON) or odd (SW[0] OFF), so 1 bit
-	input playerGuess;
+	input [4:0] playerGuess;
 	input [4:0] randnum;
 	input startGame;
 	wire [4:0] randnumwire;
