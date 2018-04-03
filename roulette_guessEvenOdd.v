@@ -26,7 +26,7 @@ module roulette_guessEvenOdd(Clock, reset_n, playerGuess, fsm_out, randnum, star
 	reg state = 2'b00;
 
 	always @ (negedge startGame)
-	begin: r2FSM
+	begin:
 		case (state)
 			// initial state
 			2'b00:
