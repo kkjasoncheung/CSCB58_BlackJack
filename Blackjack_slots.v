@@ -5,8 +5,8 @@ module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, K
    output [6:0] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7;
    output [9:0] LEDR;
 	
-	wire [4:0] regularRouletteOut;
-	wire [4:0] EvenOddRouletteOut;
+	wire [4:0] regularRouletteOut; // wire for regular roulette game
+	wire [4:0] EvenOddRouletteOut;// wire for roulette game more even/odd
 	wire [4:0] wire01; // use MUX to determine which roulette game to output
 	wire [4:0] wire23;
 	wire [4:0] wire45;

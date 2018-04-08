@@ -1,1 +1,0 @@
-All files in this folder are retrieved from https://github.com/mirokuratczyk/frogger/tree/master/vga_adapter

@@ -42,13 +42,16 @@ module randomNumberModule(enable, clock, reset_n, q, load);    //Count from 1 - 
 	
 	always @(posedge clock or negedge reset_n or negedge load)
 	begin
+		// gets the current number being generated
 	   if(load == 1'b0)
 	      q <= count;
+		// if reset is clicked reset the counter
 	   else if(reset_n == 1'b0)
 	      begin
 	         count <= 5'b00001;
 	         q <= 5'b00000;  
 	      end
+		// continously looping through numbers from 1 to 10
 	   else if(enable == 1'b1)
 	      begin
 	         if(count == 5'b01010)
