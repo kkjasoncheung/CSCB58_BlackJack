@@ -10,38 +10,7 @@ module mux_2(SW, outh1, outh2, outh3, outh4, CLOCK_50, KEY, outLed);
         wire [4:0] regularRouletteOut, EvenOddRouletteOut, slotsRand;
 	
 	wire [4:0] slotOut1, slotOut2, slotOut3;
-   //Copy this module onto the Blackjack file. Remove all of the previous wires
-	//-------------------------------FROM HERE---------------------------
-	//wire [4:0] hout1, hout2, hout3, hout4, led; //Wires for the hexes and led
-	//assign LEDR[9:5] = led;
-	//mux_2 m0(.SW(SW[14:0]), 
-	         //.outh1(hout1), 
-		 //.outh2(hout2), 
-		 //.outh3(hout3), 
-		 //.outh4(hout4), 
-		 //.CLOCK_50(CLOCK_50), 
-		 //.KEY(KEY[3:0]), 
-		 //.outLed(led));
-	      
-	//hex_display h0(.IN(hout4), //Rightmost hex
-		       //.OUT0(HEX1[6:0]), 
-		       //.OUT1(HEX0[6:0])
-		       //);
-	//hex_display h1(.IN(hout3), 
-		       //.OUT0(HEX3[6:0]), 
-		       //.OUT1(HEX2[6:0])
-		       //);
-
-	//hex_display h2(.IN(hout2), 
-		       //.OUT0(HEX5[6:0]), //Second left most hext
-		       //.OUT1(HEX4[6:0]));
-					  
-	//hex_display h3(.IN(hout1),  //Left most hex
-		       //.OUT0(HEX7[6:0]),
-                       //.OUT1(HEX6[6:0]));      
-        //------------------------------TO HERE------------------------------
 	
-
        // Generate random numbers
        randomNumberModule c0(.enable(1'b1), 
 		  .clock(CLOCK_50), 
