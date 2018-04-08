@@ -59,20 +59,3 @@ module randomNumberModule(enable, clock, reset_n, q, load);    //Count from 1 - 
 	end
 endmodule
 
-//// rate divider module
-//module rateDivider(clk, divider);
-//	input clk;
-//	output reg divider;
-//	reg [25:0] counter;
-//	always @ (posedge clk)
-//		begin
-//			counter <= counter + 1'b1;
-//			if (counter == 26'b1011111010111100001000000)
-//				begin
-//					counter <= 26'b00000000000000000000000000;
-//					divider <= divider + 1'b1;
-//				end
-//		end
-//endmodule
-
-
