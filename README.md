@@ -5,3 +5,4 @@ This project consists of 5 different games that players can choose from.
 2. Roulette Even Odd: Guessing whether a number is even or odd.
 3. Black Jack: Typical Black Jack in the casino. 
 4. Slots: Given 2 columns of the slot, try and match the 2 numbers to be the same.
+5. 1v1: Trying getting a higher number than your opponent.
