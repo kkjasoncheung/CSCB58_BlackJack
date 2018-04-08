@@ -51,7 +51,7 @@ module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, K
 					.key_1(KEY[3]), 
 					.key_2(KEY[2]), 
 					.key_3(KEY[1]));
-	// create HEX modules to display output of games. We need a max. of 4 HEXs.
+
 	
 	// only use 2 HEXs for roulette games
 	hex_display h0(.IN(drandnum), //wire01 player's balance in Roulette, Dealer's Random # in BlackJack
@@ -68,37 +68,6 @@ module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, K
 						.OUT0(HEX5[6:0]),
 						.OUT1(HEX4[6:0])
 						);
-
-	// create instances of muxs for h0, h2 and h3.
-	// mux (mux3to1) for HEX0 and HEX1 output
-	// mux m1(.in1(regularRouletteOut),
-	// 			.in2(evenOddRouletteOut), 
-	// 			.in3(drandnum),
-	// 			.select(SW[14:13]), // use switches 14-13 to select game
-	// 			.outWire(wire01)
-	// 			);
-	// // mux for HEX4, HEX5 output
-	// mux2to1 m2(.gameInput(dealer),
-	// 				.select(SW[14:13]),
-	// 				.outWire(wire45)
-	// 				);
-
-	// // mux for HEX6, HEX7 output
-	// mux2to1 m3(.gameInput(player),
-	// 				.select(SW[14:13]),
-	// 				.outWire(wire67)
-	// 				);
-
-	// // mux for choosing the winner output
-	// mux m4(.in1(roulette_winner_wire),
-	// 		.in2(roulette_guessEvenOdd),
-	// 		.in3(blackjack_winner_wire),
-	// 		.select(SW[14:13]),
-	// 		.outWire(winner)
-	// 		);
-	// conditionally generate instances 
-	// Solution found on Stack Overflow
-	// https://stackoverflow.com/questions/15240591/conditional-instantiation-of-verilog-module
 
 endmodule
 
