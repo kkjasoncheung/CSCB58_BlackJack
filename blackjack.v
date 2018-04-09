@@ -1,4 +1,4 @@
-module statemachine(Clock, reset_n, enter, pass, phand, dhand, fsm_out, prandnumwire, drandnumwire);  //Dealer deals to himself with pass
+module blackjack(Clock, reset_n, enter, pass, phand, dhand, fsm_out, prandnumwire, drandnumwire);  //Dealer deals to himself with pass
 
     reg [2:0] state = 3'b000;
     output reg [4:0] phand = 5'b00000; //added the size of the register
