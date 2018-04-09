@@ -52,7 +52,7 @@ module mux_2(SW, outh1, outh2, outh3, outh4, CLOCK_50, KEY, outLed);
 				 .playerBalance(EvenOddRouletteOut)
 				 );
 							
-	statemachine s0(.Clock(CLOCK_50), 
+	blackjack s0(.Clock(CLOCK_50), 
 					.reset_n(KEY[0]), 
 					.enter(KEY[3]), 
 					.pass(KEY[2]), 
