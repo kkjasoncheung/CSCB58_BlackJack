@@ -1,4 +1,4 @@
-module BlackJack(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, KEY, LEDR);
+module CasinoRoyale(SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7, CLOCK_50, KEY, LEDR);
    input [14:0] SW;
    input [3:0] KEY;
    input CLOCK_50; 
